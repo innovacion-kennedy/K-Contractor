@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="detalleCt-container">
+    <h2 class="detalleCt-titulo">Detalles del Contratista</h2>
+
+    <div class="detalleCt-card">
+        <div class="detalleCt-card-body">
+            <p class="detalleCt-texto"><strong>Cédula:</strong> {{ persona.no_identificacion }}</p>
+            <p class="detalleCt-texto"><strong>Nombre:</strong> {{ persona.primer_nombre }} {{ persona.apellido_paterno }}</p>
+            <p class="detalleCt-texto"><strong>Correo:</strong> {{ persona.usuario.email }}</p>
+
+            <h3 class="detalleCt-subtitulo">📂 Documentos Cargados</h3>
+            {% if persona.documentos.exists %}
+                <table class="detalleCt-tabla">
+                    <thead>
+                        <tr>
+                            <th class="detalleCt-tabla-encabezado">Tipo de Documento</th>
+                            <th class="detalleCt-tabla-encabezado">Fecha de Carga</th>
+                            <th class="detalleCt-tabla-encabezado">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for documento in persona.documentos.all %}
+                        <tr class="detalleCt-tabla-fila">
+                            <td>{{ documento.tipo_documento }}</td>
+                            <td>{{ documento.fecha_carga|date:"d M Y" }}</td>
+                            <td>
+                                <a href="{{ documento.archivo.url }}" target="_blank" class="detalleCt-boton-ver">
+                                    📄 Ver {{ documento.tipo_documento }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="detalleCt-mensaje">❌ No ha cargado documentos.</p>
+            {% endif %}
+
+            <a href="{% url 'contratacion:listado_Hv' %}" class="detalleCt-boton-volver">🔙 Volver al Listado</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

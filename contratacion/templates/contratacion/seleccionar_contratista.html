@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Seleccionar Contratista para {{ convocatoria.titulo }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Profesión</th>
+                <th>Fecha de Asociación</th> <!-- ✅ Nueva columna -->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for persona in contratistas %}
+            <tr>
+                <td>{{ persona.no_identificacion }}</td>
+                <td>{{ persona.primer_nombre }} {{ persona.apellido_paterno }}</td>
+                <td>{{ persona.nivel_formacion }}</td>
+
+                <!-- ✅ Mostrar fecha de asociación si está asociado -->
+                <td>
+                    {% if persona.id in evaluaciones_dict %}
+                        {{ evaluaciones_dict|dictsort:persona.id|date:"d M Y H:i" }}
+                    {% else %}
+                        <span class="text-muted">No asociado</span>
+                    {% endif %}
+                </td>
+
+                <!-- ✅ Cambiar botón dependiendo de si está asociado -->
+                <td>
+                    {% if persona.id in evaluaciones_dict %}
+                        {{ evaluaciones_dict.persona.id.fecha_asociacion|date:"d M Y H:i" }}
+                    {% else %}
+                        <span class="text-muted">No asociado</span>
+                    {% endif %}
+                </td>
+                
+                <td>
+                    {% if persona.id in evaluaciones_dict %}
+                        <!-- Si ya está asociado, mostrar botón para eliminar -->
+                        <form method="POST" action="{% url 'contratacion:eliminar_asociacion' persona.id convocatoria.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">❌ Eliminar Asociación</button>
+                        </form>
+                    {% else %}
+                        <!-- Si no está asociado, mostrar botón para asociar -->
+                        <form method="POST" action="{% url 'contratacion:asociar_contratista' persona.id convocatoria.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">✅ Asociar</button>
+                        </form>
+                    {% endif %}
+                </td>
+                            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No hay contratistas disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'contratacion:lista_convocatorias' %}" class="btn btn-secondary">⬅ Volver</a>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1 class="dash-title">Registro de Documentos</h1>
+{% endblock %}
+
+{% block content %}
+
+    <!-- 📢 Mensajes de Éxito o Error -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+<div class="registrodc-container">
+
+    <!-- 🔥 Mensajes de Confirmación -->
+    {% if messages %}
+        <div class="registrodc-messages">
+            {% for message in messages %}
+                <div class="registrodc-message {% if message.tags == 'success' %}registrodc-success{% else %}registrodc-error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- 🔹 Información del Contratista -->
+    <h2 class="registrodc-title">Información del Contratista</h2>
+    <p><strong>Bienvenido, {{ persona.primer_nombre }} {{ persona.apellido_paterno }}!</strong></p>
+
+    <form method="POST" class="registrodc-form">
+        {% csrf_token %}
+        {% for field in persona_form %}
+            {% if field.name != "solicita_permiso_especial" %}  {# 🔹 Oculta el campo #}
+                <div class="registrodc-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+        <button type="submit" name="guardar_datos" class="registrodc-btn">Guardar Datos</button>
+    </form>
+    <hr class="registrodc-divider">
+
+    <!-- 🚀 Estado de Evaluación -->
+    <h3 class="registrodc-title">Estado de Evaluación</h3>
+    {% if evaluacion %}
+        <p><strong>Estado:</strong> {{ evaluacion.estado }}</p>
+        <p><strong>Comentarios del Evaluador:</strong> {{ evaluacion.observaciones|default:"Sin comentarios" }}</p>
+        <p><strong>Fecha de Evaluación:</strong> {{ evaluacion.fecha_evaluacion|date:"d M Y" }}</p>
+        <p><strong>Evaluador:</strong> {{ evaluacion.evaluador.get_full_name|default:"No asignado" }}</p>
+    {% else %}
+        <p class="text-muted">Aún no ha sido evaluado.</p>
+    {% endif %}
+
+    <hr class="registrodc-divider">
+
+    <!-- 🚀 Subida de Documentos -->
+    <h2 class="registrodc-title">Subir Documentos</h2>
+    <form method="POST" enctype="multipart/form-data" class="registrodc-form">
+        {% csrf_token %}
+        {{ documento_form.as_p }}
+        <button type="submit" name="subir_documento" class="registrodc-btn">Subir Documento</button>
+    </form>
+
+    <hr class="registrodc-divider">
+
+    <!-- 📂 Lista de Documentos Subidos -->
+    <h3 class="registrodc-title">Documentos Subidos</h3>
+    <ul class="registrodc-list">
+        {% for doc in documentos %}
+            <li class="registrodc-item">
+                <strong>{{ doc.tipo_documento }}</strong> - 
+                <a href="{{ doc.archivo.url }}" target="_blank" class="registrodc-link">📄 Ver</a> 
+                (Estado: <span class="registrodc-status">{{ doc.estado }}</span>)
+
+                <!-- 🗑️ Botón para Eliminar Documento -->
+                <form method="POST" action="{% url 'contratacion:eliminar_documento' doc.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="registrodc-delete-btn">Eliminar</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="registrodc-item">No has subido documentos aún.</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

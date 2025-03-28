@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Cargar CSV{% endblock %}
+
+{% block content %}
+<h1>Cargar archivo CSV</h1>
+<form action="{% url 'cargar_csv' %}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Cargar" class="btn btn-primary">
+</form>
+{% endblock %}

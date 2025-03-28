@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}App Alcaldia Kennedy{% endblock %}</title>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  
+    <script src="{% static 'js/menu.js' %}" defer></script>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- 🔹 Navbar Fijo -->
+<header class="base-top-nav">
+    <button class="base-toggle-btn desktop-only">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" class="bi bi-menu-up" viewBox="0 0 16 16">
+            <path d="M7.646 15.854a.5.5 0 0 0 .708 0L10.207 14H14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3.793zM1 9V6h14v3zm14 1v2a1 1 0 0 1-1 1h-3.793a1 1 0 0 0-.707.293l-1.5 1.5-1.5-1.5A1 1 0 0 0 5.793 13H2a1 1 0 0 1-1-1v-2zm0-5H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zM2 11.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 0-1h-8a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11a.5.5 0 0 0-.5.5m0-4a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1h-6a.5.5 0 0 0-.5.5"/>
+        </svg>
+    </button>
+        <!-- Logo a la derecha del botón -->
+        <div class="logo-container">
+            <img src="{% static 'img/logo-alcaldia-bogota-kennedy.png' %}" alt="Logo" class="logo">
+        </div>
+    
+        <!-- Título centrado -->
+        <h1 class="base-title">APLICATIVOS INSTITUCIONALES</h1>
+    
+
+
+    <!-- 🔹 Perfil de Usuario -->
+    <div class="base-user-info">
+        {% if user.is_authenticated %}
+            <div class="base-user-dropdown">
+                <a class="user-dropdown-toggle">
+                    <span class="base-user-name">{{ user.username }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="25" fill="currentColor" class="bi bi-person-circle user-icon" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><strong>{{ user.first_name }} {{ user.last_name }}</strong></li>
+                    <li><small>{{ user.email }}</small></li>
+                    <li><hr></li>
+                    <li><a href="{% url 'perfil' %}">Mi Perfil</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="dash-btn dash-btn-danger">Cerrar Sesión</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+<!-- 🔹 Barra lateral -->
+<aside class="base-sidebar">
+    <ul class="nav">
+        <li class="sidebar-item">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+                <i class="bi bi-house-door me-2"></i> Inicio
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<!-- 🔹 Contenido Principal -->
+<main class="base-content">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- 🔹 Footer -->
+<footer class="base-footer">
+    <p>&copy; 2025 Alcaldía Local de Kennedy - Todos los derechos reservados</p>
+</footer>
+
+</body>
+</html>

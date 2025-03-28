@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Lista de Contratos</h2>
+
+    <!-- Mensaje de éxito si el contrato fue eliminado -->
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-lg p-3 mb-4 rounded" role="alert">
+        <i class="fas fa-check-circle me-2 fa-lg"></i> <!-- Icono de éxito -->
+        <div>
+            {% for message in messages %}
+                <strong>¡Éxito!</strong> {{ message }}
+            {% endfor %}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped border rounded shadow">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Código del Contrato</th>
+                    <th>Persona</th>
+                    <th>Proyecto</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Terminación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for contrato in contratos %}
+                <tr>
+                    <td>{{ contrato.id }}</td>
+                    <td><span class="badge bg-primary">{{ contrato.codigo_contrato }}</span></td>  <!-- Código con estilo -->
+                    <td>{{ contrato.persona }}</td>
+                    <td>{{ contrato.nombre_proyecto }}</td>
+                    <td>{{ contrato.fecha_inicio }}</td>
+                    <td>{{ contrato.fecha_terminacion }}</td>
+                    <td>
+                        <a href="{% url 'editar_contrato' contrato.id %}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+
+                        <!-- Botón de eliminar con confirmación -->
+                        <form action="{% url 'eliminar_contrato' contrato.id %}" method="post" style="display:inline;" onsubmit="return confirmarEliminacion();">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Función JavaScript para confirmar antes de eliminar -->
+<script>
+    function confirmarEliminacion() {
+        return confirm("⚠️ ¿Estás seguro de que deseas eliminar este contrato?");
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Datos del Funcionario{% endblock %}
+
+{% block content %}
+<h1>Crear Datos del Funcionario</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" class="form-control" value="{{ form.nombre.value }}">
+    </div>
+    <div class="form-group">
+        <label for="cedula">Cédula:</label>
+        <input type="text" id="cedula" name="cedula" class="form-control" value="{{ form.cedula.value }}">
+    </div>
+    <!-- Campo de selección de rol (grupo) -->
+    <div class="form-group">
+        <label for="grupo">Rol (Grupo):</label>
+        {{ form.grupo }}  <!-- Aquí se renderiza el campo de selección de grupos -->
+    </div>
+    <div class="form-group">
+        <label for="CPS">CPS:</label>
+        <input type="text" id="CPS" name="CPS" class="form-control" value="{{ form.CPS.value }}">
+    </div>
+    <div class="form-group">
+        <label for="sitio_expedicion">Sitio de Expedición:</label>
+        <input type="text" id="sitio_expedicion" name="sitio_expedicion" class="form-control" value="{{ form.sitio_expedicion.value }}">
+    </div>
+    <div class="form-group">
+        <label for="objeto">Objeto:</label>
+        <textarea id="objeto" name="objeto" class="form-control">{{ form.objeto.value }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="obligaciones">Obligaciones:</label>
+        <textarea id="obligaciones" name="obligaciones" class="form-control">{{ form.obligaciones.value }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="vr_inicial_contrato">Valor Inicial del Contrato:</label>
+        <input type="number" id="vr_inicial_contrato" name="vr_inicial_contrato" class="form-control" value="{{ form.vr_inicial_contrato.value }}">
+    </div>
+    <div class="form-group">
+        <label for="valor_mensual_honorarios">Valor Mensual de Honorarios:</label>
+        <input type="number" id="valor_mensual_honorarios" name="valor_mensual_honorarios" class="form-control" value="{{ form.valor_mensual_honorarios.value }}">
+    </div>
+    <div class="form-group">
+        <label for="fecha_suscripcion">Fecha de Suscripción:</label>
+        <input type="date" id="fecha_suscripcion" name="fecha_suscripcion" class="form-control" value="{{ form.fecha_suscripcion.value }}">
+    </div>
+    <div class="form-group">
+        <label for="fecha_inicio">Fecha de Inicio:</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" value="{{ form.fecha_inicio.value }}">
+    </div>
+    <div class="form-group">
+        <label for="fecha_terminacion">Fecha de Terminación:</label>
+        <input type="date" id="fecha_terminacion" name="fecha_terminacion" class="form-control" value="{{ form.fecha_terminacion.value }}">
+    </div>
+    <div class="form-group">
+        <label for="tiempo_ejecucion_dia">Tiempo de Ejecución (días):</label>
+        <input type="number" id="tiempo_ejecucion_dia" name="tiempo_ejecucion_dia" class="form-control" value="{{ form.tiempo_ejecucion_dia.value }}">
+    </div>
+    <div class="form-group">
+        <label for="año_contrato">Año del Contrato:</label>
+        <input type="number" id="año_contrato" name="año_contrato" class="form-control" value="{{ form.año_contrato.value }}">
+    </div>
+    <div class="form-group">
+        <label for="radicado">Radicado:</label>
+        <input type="text" id="radicado" name="radicado" class="form-control" value="{{ form.radicado.value }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}

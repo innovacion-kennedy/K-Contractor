@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Funcionarios{% endblock %}
+
+{% block content %}
+<h1>Listado de Funcionarios</h1>
+<ul class="list-group">
+    {% for funcionario in datos_usuarios %}
+        <li class="list-group-item">
+            <strong>Nombre:</strong> {{ funcionario.nombre }}<br>
+            <strong>Cédula:</strong> {{ funcionario.cedula }}<br>
+            <strong>CPS:</strong> {{ funcionario.CPS }}<br>
+            <strong>Año del Contrato:</strong> {{ funcionario.año_contrato }}<br>
+            
+            <!-- Verificar si el funcionario tiene un usuario asociado antes de mostrar el enlace -->
+            {% if funcionario.usuario %}
+                <a href="{% url 'certificado:gestionar_funcionario' user_id=funcionario.usuario.id %}" class="btn btn-primary mt-2">Gestionar Funcionario</a>
+            {% else %}
+                <span class="text-muted">Sin usuario asociado</span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <p>No hay funcionarios registrados.</p>
+    {% endfor %}
+</ul>
+{% endblock %}

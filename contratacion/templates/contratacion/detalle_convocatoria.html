@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="detalleCv-container">
+    <h1 class="detalleCv-tituloPrin">Convocatoria</h1>
+    <h2 class="detalleCv-titulo">{{ convocatoria.titulo }}</h2>
+
+    <div class="detalleCv-card">
+        <div class="detalleCv-card-body">
+            <h5 class="detalleCv-subtitulo">Descripción:</h5>
+            <p class="detalleCv-texto">{{ convocatoria.descripcion }}</p>
+
+            <h5 class="detalleCv-subtitulo">Estado:</h5>
+            <p class="detalleCv-texto">{{ convocatoria.estado }}</p>
+
+            <h5 class="detalleCv-subtitulo">Fecha de Creación:</h5>
+            <p class="detalleCv-texto">{{ convocatoria.fecha_creacion|date:"d M Y" }}</p>
+
+            {% if convocatoria.documento %}
+                <h5 class="detalleCv-subtitulo">Documento Adjunto:</h5>
+                <a href="{{ convocatoria.documento.url }}" class="detalleCv-boton-descargar" target="_blank">📂 Descargar</a>
+            {% endif %}
+
+            <a href="{% url 'contratacion:lista_convocatorias' %}" class="detalleCv-boton-volver">⬅ Volver</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block header %}
+<h1 class="m-0 text-white">Mi Perfil</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-custom">Información del Usuario</h2>
+    <p class="text-muted">Aquí puedes ver tu información personal.</p>
+
+    <h3>📌 DEBUG - ¿Llega la persona?</h3>
+    {% if persona %}
+        <p class="text-success">✅ Sí, la variable persona existe</p>
+        <p>🔹 Nombre: {{ persona.primer_nombre }} {{ persona.apellido_paterno }}</p>
+        <p>🆔 Identificación: {{ persona.no_identificacion }}</p>
+    {% else %}
+        <p class="text-danger">❌ No se encontró la persona</p>
+    {% endif %}
+
+</div>
+{% endblock %}

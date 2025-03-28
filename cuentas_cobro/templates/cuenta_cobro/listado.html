@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2 class="text-center mb-4">Mis Cuentas de Cobro</h2>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    
+
+    <div class="text-end mb-3">
+        <a href="{% url 'generar_cuenta_cobro' %}" class="btn btn-success">+ Nueva Cuenta de Cobro</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped border rounded shadow">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Número de Pago</th>
+                    <th>Contrato Asociado</th>
+                    <th>Estado</th>
+                    <th>Fecha de Presentación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for cuenta in cuentas %}
+                <tr>
+                    <td>{{ cuenta.numero_pago }}</td>
+                    <td>{{ cuenta.contrato.codigo_contrato }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if cuenta.estado == 'supervision' %}bg-info
+                            {% elif cuenta.estado == 'administrativa' %}bg-primary
+                            {% elif cuenta.estado == 'despacho' %}bg-warning
+                            {% elif cuenta.estado == 'secop' %}bg-secondary
+                            {% elif cuenta.estado == 'pendiente_pago' %}bg-danger
+                            {% elif cuenta.estado == 'pagada' %}bg-success
+                            {% endif %}">
+                            {{ cuenta.get_estado_display }}
+                        </span>
+                    </td>
+                    <td>{{ cuenta.fecha_presentacion|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{% url 'ver_cuenta_cobro' cuenta.id %}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i> Ver Detalles
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

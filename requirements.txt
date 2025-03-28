@@ -1,0 +1,11 @@
+asgiref==3.8.1  # Biblioteca de soporte para ASGI en Django
+Django==5.1.7  # Framework web principal
+django-extensions==3.2.3  # Extensiones desarrollo Django
+graphviz==0.20.3  # Herramienta para generar grafica de asociacion de base de datos
+pydotplus==2.0.2  # Interfaz para Graphviz en Python(visor db)
+pyparsing==3.2.3  # Expresiones en Python
+sqlparse==0.5.3  # Analizador de SQL 
+tzdata==2025.1  # Base de datos de zonas horarias
+whitenoise==6.9.0  # Archivos estáticos en producción
+
+# Pendiente Asociar Postgres Migracion 

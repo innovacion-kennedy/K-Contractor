@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Gestionar Funcionario{% endblock %}
+
+{% block content %}
+<h1>Gestionar Funcionario para {{ usuario.username }}</h1>
+
+{% if funcionario %}
+    <h3>Datos actuales del Funcionario</h3>
+    <p><strong>Nombre:</strong> {{ funcionario.nombre }}</p>
+    <p><strong>Cédula:</strong> {{ funcionario.cedula }}</p>
+    <p><strong>CPS:</strong> {{ funcionario.CPS }}</p>
+{% endif %}
+
+<h3>{% if funcionario %}Editar{% else %}Crear{% endif %} Funcionario</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    {% if not funcionario %}
+        <!-- Mostrar un campo para seleccionar un funcionario si no hay uno asociado -->
+        <label for="funcionario">Seleccionar Funcionario:</label>
+        <select name="funcionario" id="funcionario">
+            {% for f in funcionarios %}
+                <option value="{{ f.id }}" {% if f == funcionario %}selected{% endif %}>{{ f.nombre }} (Cédula: {{ f.cedula }})</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    
+    {{ form.as_p }}  <!-- Renderiza el formulario -->
+    
+    <button type="submit" class="btn btn-primary">
+        {% if funcionario %}
+            Actualizar Funcionario
+        {% else %}
+            Crear Funcionario
+        {% endif %}
+    </button>
+</form>
+
+{% if funcionario %}
+    <a href="{% url 'certificado:eliminar_datos' cedula=funcionario.cedula %}" class="btn btn-danger">Eliminar Funcionario</a>
+{% endif %}
+{% endblock %}

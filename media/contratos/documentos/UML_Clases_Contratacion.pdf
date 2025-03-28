@@ -1,0 +1,40 @@
+digraph UML_Clases {
+	Contratista [label="Contratista
++ ID: int
++ Nombre: string
++ Identificación: int
++ Teléfono: int
++ Correo: string
++ Nivel Formación: string"]
+	Entrevista [label="Entrevista
++ ID: int
++ Fecha: date
++ Resultado: string
++ Observaciones: string"]
+	Contrato [label="Contrato
++ ID: int
++ Número: string
++ Estado: string
++ Fecha Inicio: date
++ Fecha Fin: date
++ Honorarios: float"]
+	Dependencia [label="Dependencia
++ ID: int
++ Nombre: string"]
+	Proceso [label="Proceso
++ ID: int
++ Tipo: string
++ Modalidad: string
++ Estado: string
++ Número SIPSE: int"]
+	CDP [label="CDP
++ ID: int
++ Número: int
++ Valor: float
++ Fecha: date"]
+	Contratista -> Entrevista [label="asiste a"]
+	Entrevista -> Contrato [label=genera]
+	Contrato -> Proceso [label="se registra en"]
+	Proceso -> CDP [label="asocia a"]
+	Contrato -> Dependencia [label="pertenece a"]
+}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Evaluación de {{ persona.primer_nombre }} {{ persona.apellido_paterno }}</h2>
+    
+    <p><strong>Cédula:</strong> {{ persona.no_identificacion }}</p>
+    <p><strong>Correo:</strong> {{ persona.usuario.email }}</p>
+
+    <!-- 📢 Mensajes de Éxito o Error -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <h3>📄 Documentos Cargados</h3>
+    {% if persona.documentos.exists %}
+        <ul>
+            {% for documento in persona.documentos.all %}
+                <li>{{ documento.tipo_documento }} - {{ documento.fecha_carga|date:"d M Y" }}
+                    <a href="{{ documento.archivo.url }}" target="_blank" class="btn btn-sm btn-success">📄 Ver Documento</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No ha cargado documentos.</p>
+    {% endif %}
+
+    <h3 class="mt-4">📝 Evaluación</h3>
+
+    <!-- 🔹 Mostrar solo la convocatoria asignada -->
+    <p><strong>Convocatoria Evaluada:</strong> 
+        {% if evaluacion.convocatoria %}
+            {{ evaluacion.convocatoria.titulo }} - {{ evaluacion.convocatoria.estado }}
+        {% else %}
+            <span class="text-danger">No asignada</span>
+        {% endif %}
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">✅ Guardar Evaluación</button>
+        <a href="{% url 'contratacion:listado_Hv' %}" class="btn btn-secondary">🔙 Volver</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Obligaciones Extraídas</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="archivo" class="form-label">Seleccione un documento:</label>
+            <input type="file" class="form-control" id="archivo" name="archivo" accept=".pdf,.docx" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Subir y Extraer</button>
+    </form>
+
+    {% if obligaciones %}
+    <div class="mt-4">
+        <h4>Obligaciones Encontradas:</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Descripción de la Obligación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, obligacion in obligaciones %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ obligacion }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">No se encontraron obligaciones.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% endif %}
+</div>
+{% endblock %}

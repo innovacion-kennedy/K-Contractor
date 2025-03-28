@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">📋 Estado de Evaluaciones</h2>
+
+    <form method="GET">
+        <label for="convocatoria">Filtrar por Convocatoria:</label>
+        <select name="convocatoria" class="form-control">
+            <option value="">Todas las convocatorias</option>
+            {% for convocatoria in convocatorias %}
+                <option value="{{ convocatoria.id }}">{{ convocatoria.titulo }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Pendientes</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_pendientes }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Aprobados</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_aprobados }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Finalizados</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_finalizados }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mt-4">📊 Detalle de Evaluaciones</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Contratista</th>
+                <th>Evaluador</th>
+                <th>Fecha de Evaluación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evaluacion in evaluaciones %}
+            <tr>
+                <td>{{ evaluacion.contratista.primer_nombre }} {{ evaluacion.contratista.apellido_paterno }}</td>
+                <td>{{ evaluacion.evaluador }}</td>
+                <td>{{ evaluacion.fecha_evaluacion|date:"d M Y" }}</td>
+                <td>
+                    <span class="badge {% if evaluacion.estado == 'Aprobado' %}bg-success{% elif evaluacion.estado == 'Rechazado' %}bg-danger{% else %}bg-warning{% endif %}">{{ evaluacion.estado }}</span>
+                </td>
+                <td>
+                    <a href="{% url 'contratacion:evaluar_contratista' evaluacion.contratista.id %}" class="btn btn-warning btn-sm">📝 Evaluar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">⬅ Volver</a>
+</div>
+{% endblock %}

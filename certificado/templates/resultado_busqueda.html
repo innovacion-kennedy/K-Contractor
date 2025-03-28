@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Resultado de Búsqueda{% endblock %}
+
+{% block content %}
+<h1>Resultado de la Búsqueda</h1>
+
+{% if Funcionario %}
+    <p><strong>Nombre:</strong> {{ Funcionario.nombre }}</p>
+    <p><strong>Cédula:</strong> {{ Funcionario.cedula }}</p>
+    <p><strong>CPS:</strong> {{ Funcionario.CPS }}</p>
+    <p><strong>Año del Contrato:</strong> {{ Funcionario.año_contrato }}</p>
+    
+    <!-- Botón para descargar el certificado en PDF -->
+    <a href="{% url 'certificado:generar_certificado' cedula=Funcionario.cedula %}" class="btn btn-success">Descargar Certificado en PDF</a>
+    
+    
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        No se ha encontrado el funcionario con los datos proporcionados.
+    </div>
+{% endif %}
+
+{% if mensaje %}
+    <div class="alert alert-danger" role="alert">
+        {{ mensaje }}
+    </div>
+{% endif %}
+
+{% endblock %}

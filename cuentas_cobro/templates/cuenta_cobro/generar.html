@@ -1,0 +1,430 @@
+    {% extends 'base.html' %}
+
+    {% block header %}
+    <h2 class="text-center mb-4">Generar Cuenta de Cobro</h2>
+    {% endblock %}
+
+    {% block content %}
+    <div class="container mt-4">
+        <!-- Un solo formulario -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Pestañas -->
+            <ul class="nav nav-tabs" id="formTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="tab-contrato" data-bs-toggle="tab" href="#contrato" role="tab" aria-controls="contrato" aria-selected="true">Contrato</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link " id="tab-informacion" data-bs-toggle="tab" href="#informacion" role="tab" aria-controls="informacion" aria-selected="false">informacion</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-personal" data-bs-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="false">Preguntas Parafiscale</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-pantallazo-orfeo" data-bs-toggle="tab" href="#pantallazo-orfeo" role="tab" aria-controls="pantallazo-orfeo" aria-selected="false">Pantallazo de Orfeo</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-obligaciones" data-bs-toggle="tab" href="#obligaciones" role="tab" aria-controls="obligaciones" aria-selected="false">Obligaciones Asociadas</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-planilla" data-bs-toggle="tab" href="#planilla" role="tab" aria-controls="planilla" aria-selected="false">Planilla de Seguridad Social</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-pdf" data-bs-toggle="tab" href="#pdf" role="tab" aria-controls="pdf" aria-selected="false">PDF</a>
+                </li>
+            </ul>
+
+            <!-- Contenido de las pestañas -->
+            <div class="tab-content mt-3" id="formTabsContent">
+                <!-- Pestaña de Contrato -->
+                <div class="tab-pane fade show active" id="contrato" role="tabpanel" aria-labelledby="tab-contrato">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="tab-content mt-3" id="formTabsContent">
+                            <div class="tab-pane fade show active" id="contrato" role="tabpanel">
+                                <div class="mb-3">
+                                    <label for="contrato" class="form-label">Seleccione su contrato:</label>
+                                    <select name="contrato" id="contrato" class="form-select" onchange="cargarDatosContrato()">
+                                        <option value="">-- Seleccione un contrato --</option>
+                                        <option value="1">Contrato de Ejemplo</option>
+                                    </select>
+                                </div>
+                
+                                <div id="datos-contrato" class="border p-3 mb-3" style="display: block;">
+                                    <h4>Información del Contrato</h4>
+                                    <p><strong>Nombre completo del contratista:</strong> <span id="nombre_contratista">Sandra Tacasuche</span></p>
+                                    <p><strong>Tipo de identificación:</strong> <span id="tipo_identificacion">Cédula de Ciudadanía</span></p>
+                                    <p><strong>Número de identificación:</strong> <span id="id_contratista">1037575134</span></p>
+                                    <p><strong>Nombre del contratista cedente:</strong> <span id="nombre_cedente">Pepito Perez</span></p>
+                                    <p><strong>Tipo de identificación cedente:</strong> <span id="tipo_id_cedente">Cédula de Ciudadanía</span></p>
+                                    <p><strong>Número de identificación cedente:</strong> <span id="id_cedente">5234789</span></p>
+                                    <p><strong>Banco:</strong> <span id="banco">[Seleccione un banco]</span></p>
+                                    <p><strong>Tipo de cuenta:</strong> <span id="tipo_cuenta">[Seleccione un tipo de cuenta]</span></p>
+                                    <p><strong>Número de cuenta:</strong> <span id="numero_cuenta">04886654564545</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="tab-pane fade " id="informacion" role="tabpanel" aria-labelledby="tab-informacion">
+                                    <h4>Objeto del contrato</h4>
+                                    <p><strong>Descripción:</strong> <span id="objeto_contrato">Presta servicios profesionales para xxxx</span></p>
+                                    
+                                    <h4>Fechas y Plazos</h4>
+                                    <p><strong>Fecha Acta de Inicio:</strong> <input type="text" class="form-control" disabled></p>
+                                    <p><strong>Fecha de Terminación Inicial:</strong> <input type="date" class="form-control"></p>
+                                    <p><strong>Fecha de Terminación con Prórrogas y Suspensiones:</strong> <input type="date" class="form-control"></p>
+                                    <p><strong>Plazo de Ejecución:</strong> <input type="text" class="form-control" disabled></p>
+                                    <p><strong>Prórroga (Días):</strong> <input type="text" class="form-control" disabled></p>
+                                    
+                                    <h4>Suspensión</h4>
+                                    <p><strong>Fecha Inicial:</strong> <input type="date" class="form-control"></p>
+                                    <p><strong>Fecha Final:</strong> <input type="date" class="form-control"></p>
+                                
+
+                </div>
+
+                <!-- Pestaña de Información Personal -->
+                <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="tab-personal">
+                    <h4>Información Personal</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Pregunta</th>
+                                <th>Si</th>
+                                <th>No</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Soy Pensionado</td>
+                                <td><input type="radio" name="soy_pensionado" value="True"></td>
+                                <td><input type="radio" name="soy_pensionado" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Devolución de saldos (No estoy obligado a cotizar pensión)</td>
+                                <td><input type="radio" name="devolucion_saldos" value="True"></td>
+                                <td><input type="radio" name="devolucion_saldos" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Soy Declarante de Renta año 2024</td>
+                                <td><input type="radio" name="declarante_renta" value="True"></td>
+                                <td><input type="radio" name="declarante_renta" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>He contratado o vinculado dos o más trabajadores o contratistas asociados a la actividad generadora de renta.</td>
+                                <td><input type="radio" name="contrata_trabajadores" value="True"></td>
+                                <td><input type="radio" name="contrata_trabajadores" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Declaro que el 80% o más de mis ingresos provienen de la prestación de servicios de manera personal o de la realización de la actividad económica</td>
+                                <td><input type="radio" name="ingresos_80_mas" value="True"></td>
+                                <td><input type="radio" name="ingresos_80_mas" value="False" checked></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h4>Depuración Cálculo de Renta</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Pregunta</th>
+                                <th>Si</th>
+                                <th>No</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>¿Soy responsable del Impuesto a las ventas – IVA?</td>
+                                <td><input type="radio" name="responsable_iva" value="True"></td>
+                                <td><input type="radio" name="responsable_iva" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>¿Hago aportes a cuenta AFC – Ahorro de Fomento a la Construcción?</td>
+                                <td><input type="radio" name="aportes_afc" value="True"></td>
+                                <td><input type="radio" name="aportes_afc" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>¿A la fecha hago aportes VOLUNTARIOS a pensión?</td>
+                                <td><input type="radio" name="aportes_voluntarios_pension" value="True"></td>
+                                <td><input type="radio" name="aportes_voluntarios_pension" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>¿Aporto certificación de pago de intereses en préstamos de vivienda del año inmediatamente anterior?</td>
+                                <td><input type="radio" name="intereses_vivienda" value="True"></td>
+                                <td><input type="radio" name="intereses_vivienda" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>¿Aporto certificación de pagos a medicina prepagada y/o planes adicionales de salud?</td>
+                                <td><input type="radio" name="medicina_prepagada" value="True"></td>
+                                <td><input type="radio" name="medicina_prepagada" value="False" checked></td>
+                            </tr>
+                            <tr>
+                                <td>¿Certifico que tengo dependientes de acuerdo con los requisitos exigidos?</td>
+                                <td><input type="radio" name="dependientes" value="True"></td>
+                                <td><input type="radio" name="dependientes" value="False" checked></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <button type="submit" class="btn btn-primary mt-3">Guardar Respuestas</button>
+                </div>
+
+                <!-- Pestaña para Pantallazo de Orfeo o Radicado -->
+                <div class="tab-pane fade" id="pantallazo-orfeo" role="tabpanel" aria-labelledby="tab-pantallazo-orfeo">
+                    <!-- Aquí colocamos el código para elegir si tiene radicado abierto o no -->
+                    <div class="mb-3">
+                        <label for="radicado_abierto" class="form-label">¿Tiene algún radicado abierto?</label>
+                        <select id="radicado_abierto" name="radicado_abierto" class="form-select" onchange="mostrarOpcionesRadicado()">
+                            <option value="">-- Seleccione --</option>
+                            <option value="no">No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </div>
+
+                    <!-- Pantallazo -->
+                    <div id="pantallazo-div" class="pantallazo" style="display: none;">
+                        <h4>Pantallazo de Orfeo</h4>
+                        <p class="text-muted">Por favor, suba un pantallazo del sistema Orfeo.</p>
+                        <div class="mb-3">
+                            <label for="pantallazo_orfeo" class="form-label">Subir Pantallazo:</label>
+                            <input type="file" class="form-control" id="pantallazo_orfeo" name="pantallazo_orfeo" accept="image/*" required>
+                        </div>
+                        <div id="vista-previa" class="mt-3" style="display: none;">
+                            <h5>Vista previa:</h5>
+                            <img id="vista-imagen" src="" alt="Pantallazo Orfeo" class="img-fluid" style="max-width: 300px;">
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Radicados Abiertos -->
+                    <div id="tabla-div" class="table-responsive" style="display: none;">
+                        <h5 class="text-muted">Por favor, complete la siguiente tabla si tiene procesos abiertos.</h5>
+                        <table class="table table-bordered" id="tabla-radicados">
+                            <thead>
+                                <tr>
+                                    <th>NUMERO DE RADICADO</th>
+                                    <th>FECHA DE RADICACION</th>
+                                    <th>ESTADO DEL TRAMITE</th>
+                                    <th>ACCION O PLAN DE TRABAJO PARA TRAMITAR Y DAR CIERRE</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" name="numero_radicado[]" class="form-control"></td>
+                                    <td><input type="date" name="fecha_radicacion[]" class="form-control"></td>
+                                    <td><input type="text" name="estado_tramite[]" class="form-control"></td>
+                                    <td><input type="text" name="accion_plan_trabajo[]" class="form-control"></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-outline-primary" id="agregar-fila" onclick="agregarFila()">
+                                Agregar Nueva Fila
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña de Obligaciones Asociadas -->
+                <div class="tab-pane fade" id="obligaciones" role="tabpanel" aria-labelledby="tab-obligaciones">
+                    <h4 class="mt-4">Obligaciones Asociadas</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Actividad</th>
+                                <th>Producto</th>
+                                <th>Método de Verificación</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-obligaciones">
+                            <!-- Aquí se insertarán dinámicamente las obligaciones -->
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-outline-primary" id="agregar-obligacion" onclick="agregarObligacion()">
+                            Agregar Nueva Obligación
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pestaña de Planilla de Seguridad Social -->
+                <div class="tab-pane fade" id="planilla" role="tabpanel" aria-labelledby="tab-planilla">
+                    <h4 class="mt-4">Datos de la Planilla</h4>
+
+                    <div class="mb-3">
+                        <label for="numero_planilla" class="form-label"> Número de Planilla pago de seguridad social:</label>
+                        <input type="text" id="numero_planilla" name="numero_planilla" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="periodo_cotizado" class="form-label"> Seleccione el periodo cotizado:</label>
+                        <select id="periodo_cotizado" name="periodo_cotizado" class="form-select" required>
+                            <option value="">-- Seleccione un periodo --</option>
+                            <option value="Enero">Enero</option>
+                            <option value="Febrero">Febrero</option>
+                            <option value="Marzo">Marzo</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Mayo">Mayo</option>
+                            <option value="Junio">Junio</option>
+                            <option value="Julio">Julio</option>
+                            <option value="Agosto">Agosto</option>
+                            <option value="Septiembre">Septiembre</option>
+                            <option value="Octubre">Octubre</option>
+                            <option value="Noviembre">Noviembre</option>
+                            <option value="Diciembre">Diciembre</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_pago" class="form-label"> Fecha de pago de la planilla (dd/mm/aaaa):</label>
+                        <input type="date" id="fecha_pago" name="fecha_pago" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 mt-3">Generar Cuenta de Cobro</button>
+                </div>
+
+
+                <div class="tab-pane fade" id="pdf" role="tabpanel" aria-labelledby="tab-pdf">
+                    <div class="mt-4">
+                        <div class="mt-4">
+                            <h4>Previsualización del PDF</h4>
+                            <iframe id="preview-pdf" src="" style="width:100%; height:500px; display:none;"></iframe>
+                            <button type="button" class="btn btn-primary mt-3" onclick="generarVistaPrevia()">Generar Vista Previa</button>
+                            <a href="{% url 'generar_pdf' %}" class="btn btn-success mt-3" target="_blank">Descargar PDF</a>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+function generarVistaPrevia() {
+    var iframe = document.getElementById('preview-pdf');
+    iframe.src = "{% url 'generar_pdf' %}";
+    iframe.style.display = 'block';
+}
+        // Función para mostrar la tabla o el pantallazo dependiendo de la respuesta
+        function mostrarOpcionesRadicado() {
+            var radicadoAbierto = document.getElementById("radicado_abierto").value;
+            if (radicadoAbierto === "si") {
+                document.getElementById("pantallazo-div").style.display = "none";
+                document.getElementById("tabla-div").style.display = "block";
+            } else {
+                document.getElementById("pantallazo-div").style.display = "block";
+                document.getElementById("tabla-div").style.display = "none";
+            }
+        }
+
+        // Función para agregar una nueva fila a la tabla
+        function agregarFila() {
+            var tabla = document.getElementById("tabla-radicados").getElementsByTagName('tbody')[0];
+            var nuevaFila = tabla.insertRow();
+
+            // Crear celdas para la nueva fila
+            for (var i = 0; i < 4; i++) {
+                var celda = nuevaFila.insertCell(i);
+                var input;
+
+                if (i === 0) {
+                    input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "numero_radicado[]";
+                    input.classList.add("form-control");
+                } else if (i === 1) {
+                    input = document.createElement("input");
+                    input.type = "date";
+                    input.name = "fecha_radicacion[]";
+                    input.classList.add("form-control");
+                } else if (i === 2) {
+                    input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "estado_tramite[]";
+                    input.classList.add("form-control");
+                } else {
+                    input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "accion_plan_trabajo[]";
+                    input.classList.add("form-control");
+                }
+
+                celda.appendChild(input);
+            }
+
+            // Celda para el botón de eliminar
+            var celdaEliminar = nuevaFila.insertCell(4);
+            var btnEliminar = document.createElement("button");
+            btnEliminar.type = "button";
+            btnEliminar.classList.add("btn", "btn-danger", "btn-sm");
+            btnEliminar.innerHTML = "Eliminar";
+            btnEliminar.onclick = function() {
+                eliminarFila(btnEliminar);
+            };
+            celdaEliminar.appendChild(btnEliminar);
+        }
+
+        // Función para eliminar una fila de la tabla
+        function eliminarFila(btn) {
+            var fila = btn.closest("tr");
+            fila.remove();
+        }
+
+        // Vista previa de la imagen
+        document.getElementById('pantallazo_orfeo').addEventListener('change', function(e) {
+            const archivo = e.target.files[0];
+            const vistaPrevia = document.getElementById('vista-previa');
+            const imagenVistaPrevia = document.getElementById('vista-imagen');
+
+            if (archivo) {
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    imagenVistaPrevia.src = event.target.result;
+                    vistaPrevia.style.display = 'block';  // Mostrar la vista previa
+                };
+
+                reader.readAsDataURL(archivo);
+            } else {
+                vistaPrevia.style.display = 'none';  // Ocultar la vista previa si no se selecciona imagen
+            }
+        });
+
+        function agregarObligacion() {
+    var tabla = document.getElementById("tabla-obligaciones");
+    var nuevaFila = document.createElement("tr");
+    
+    var columnas = ["#", "Descripción", "Actividad", "Producto", "Método de Verificación"];
+    
+    columnas.forEach(function(columna) {
+        var celda = document.createElement("td");
+        var input = document.createElement("input");
+        input.type = "text";
+        input.classList.add("form-control");
+        celda.appendChild(input);
+        nuevaFila.appendChild(celda);
+    });
+    
+    var celdaAccion = document.createElement("td");
+    var btnEliminar = document.createElement("button");
+    btnEliminar.classList.add("btn", "btn-danger", "btn-sm");
+    btnEliminar.innerText = "Eliminar";
+    btnEliminar.onclick = function() { eliminarFila(nuevaFila); };
+    celdaAccion.appendChild(btnEliminar);
+    nuevaFila.appendChild(celdaAccion);
+    
+    tabla.appendChild(nuevaFila);
+}
+
+function eliminarFila(fila) {
+    fila.remove();
+}
+    </script>
+
+    {% endblock %}
