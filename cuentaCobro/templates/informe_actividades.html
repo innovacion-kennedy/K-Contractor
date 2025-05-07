@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Actividades</title>
+    <style>
+        body {
+            font-family: Garamond, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #000;
+        }
+        .center-text {
+            text-align: center;
+            font-weight: bold;
+        }
+        .red-text {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            text-align: center;
+            background-color: #d9eaf7;
+        }
+        .highlight {
+            background-color: #d9eaf7;
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 20px;
+            border-top: 1px solid #000;
+            padding-top: 10px;
+        }
+        .footer .page-info {
+            font-weight: bold;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <tr>
+                <td colspan="4" class="center-text">
+                    <h2>INFORME <span class="red-text">(MENSUAL / FINAL)</span> DE ACTIVIDADES No. _____</h2>
+                    <h3>PERÍODO: <span class="red-text">«DÍA Y MES»</span> AL <span class="red-text">«DÍA Y MES»</span> DE <span class="red-text">«AÑO»</span></h3>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="4">DATOS BÁSICOS DEL CONTRATO</th>
+            </tr>
+            <tr>
+                <th>TIPO DE CONTRATO</th>
+                <td colspan="3">«DESCRIBA EL TIPO DE CONTRATO »</td>
+            </tr>
+            <tr>
+                <th>No. CONTRATO Y FECHA</th>
+                <td colspan="3">«NUMERO DE CONTRATO Y FECHA DE SUSCRIPCIÓN»</td>
+            </tr>
+            <tr>
+                <th>NOMBRE DEL CONTRATISTA</th>
+                <td colspan="3">«NOMBRE COMPLETO»</td>
+            </tr>
+            <tr>
+                <th>TIPO (C.C-NIT) Y NO. DE IDENTIFICACIÓN</th>
+                <td colspan="3">«NUMERO Y LUGAR DE EXPEDICIÓN»</td>
+            </tr>
+            <tr>
+                <th>PLAZO DE EJECUCIÓN</th>
+                <td colspan="3">«PLAZO ESTABLECIDO EN EL CONTRATO»</td>
+            </tr>
+            <tr>
+                <th>VALOR TOTAL DEL CONTRATO</th>
+                <td colspan="3">«RELACIONE EL VALOR TOTAL ESTABLECIDO EN EL CONTRATO»</td>
+            </tr>
+            <tr>
+                <th>VALOR DEL PERIODO DE COBRO</th>
+                <td colspan="3">«RELACIONE EL VALOR QUE CORRESPONDE PARA EL PERIODO»</td>
+            </tr>
+            <tr>
+                <th>No. DEL PROYECTO (IMPUTACIÓN PRESUPUESTAL)</th>
+                <td colspan="3">«PROYECTO DE LA ENTIDAD QUE DESTINA LOS RECURSOS»</td>
+            </tr>
+            <tr>
+                <th>FECHA ACTA DE INICIO</th>
+                <td colspan="3">«DÍA, MES Y AÑO»</td>
+            </tr>
+            <tr>
+                <th>PRÓRROGA</th>
+                <td colspan="3">«PLAZO DE LA PRORROGA»</td>
+            </tr>
+            <tr>
+                <th>ADICIÓN</th>
+                <td colspan="3">«VALOR DE LA ADICION»</td>
+            </tr>
+            <tr>
+                <th>SUSPENSIÓN</th>
+                <td colspan="3">«PLAZO DE LA SUSPENSIÓN»</td>
+            </tr>
+            <tr>
+                <th>FECHA PREVISTA DE TERMINACIÓN</th>
+                <td colspan="3">«DÍA, MES Y AÑO»</td>
+            </tr>
+            <tr>
+                <th>OBJETO DEL CONTRATO</th>
+                <td colspan="3">«TRANSCRIBIR EL OBJETO CONTRACTUAL»</td>
+            </tr>
+            <tr class="highlight">
+                <th colspan="4">FIRMAS</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>DECLARACIÓN DEL CONTRATISTA:</strong>
+                    <p>Manifiesto que he cumplido con las obligaciones derivadas del contrato y que las actividades mencionadas corresponden a las labores efectivamente desarrolladas.</p>
+                </td>
+                <td>
+                    <strong>CONTRATISTA</strong><br>
+                    Nombre: _________________________<br>
+                    Cargo: _________________________<br>
+                    Firma: ___________________________
+                </td>
+            </tr>
+        </table>
+        <div class="footer">
+            GCO-GCI-F110<br>
+            Versión: 06<br>
+            Vigencia: 17 de julio de 2019<br>
+            <span class="page-info">Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+        </div>
+    </div>
+
+</body>
+</html>

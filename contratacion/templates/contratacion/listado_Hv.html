@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container hv-container">
+    <h2 class="mt-4 hv-title">📋 Listado de Contratistas</h2>
+
+    <!-- 🔍 Buscador -->
+    <form method="GET" class="mb-4 hv-search-form">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por cédula o nombre" class="form-control hv-search-input">
+        <button type="submit" class="btn btn-primary mt-2 hv-search-btn">🔍 Buscar</button>
+    </form>
+
+    <table class="table table-striped hv-table">
+        <thead class="hv-table-head">
+            <tr>
+                <th class="hv-th">Cédula</th>
+                <th class="hv-th">Nombre</th>
+                <th class="hv-th">Correo</th>
+                <th class="hv-th">Fecha de Registro</th>
+                <th class="hv-th">Documentos Cargados</th>
+                <th class="hv-th">Acciones</th>
+                <th class="hv-th">Evaluacion</th>
+
+            </tr>
+        </thead>
+        <tbody class="hv-table-body">
+            {% for persona in contratistas %}
+            <tr class="hv-table-row">
+                <td class="hv-td">{{ persona.no_identificacion }}</td>
+                <td class="hv-td">{{ persona.primer_nombre }} {{ persona.apellido_paterno }}</td>
+                <td class="hv-td">{{ persona.usuario.email }}</td>
+                <td class="hv-td">
+                    {% if persona.fecha_hoja_vida %}
+                        {{ persona.fecha_hoja_vida|date:"d M Y" }}
+                    {% else %}
+                        <span class="text-muted hv-no-registro">Sin registro</span>
+                    {% endif %}
+                </td>
+                <td class="hv-td">
+                    {% if persona.documentos.exists %}
+                        <ul class="hv-doc-list">
+                            {% for documento in persona.documentos.all %}
+                                <li class="hv-doc-item">
+                                    <strong>{{ documento.tipo_documento }}</strong> - {{ documento.fecha_carga|date:"d M Y" }}
+                                    <a href="{{ documento.archivo.url }}" target="_blank" class="btn btn-success btn-sm hv-doc-btn">
+                                        📄 Ver {{ documento.tipo_documento }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <span class="text-muted hv-no-docs">No ha cargado documentos.</span>
+                    {% endif %}
+                </td>
+                <td class="hv-td">
+                    <a href="{% url 'contratacion:detalle_contratista' persona.id %}" class="btn btn-info btn-sm hv-view-btn">
+                        👤 Ver Perfil
+                    </a>
+                </td>
+                <td class="hv-td">
+                    <a href="{% url 'contratacion:evaluar_contratista' persona.id %}" class="btn btn-warning btn-sm hv-view-btn">
+                        📝 Evaluar HV
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr class="hv-empty-row">
+                <td colspan="6" class="text-center hv-no-data">No hay contratistas registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'login:dashboard' %}" class="btn-volver">Volver</a>
+</div>
+{% endblock %}

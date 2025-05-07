@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4 text-danger">Nueva Cuenta de Cobro</h2>
+
+    <div class="step-container">
+        <ul class="step-bar">
+            <li class="step {% if request.path == '/datos-personales/' %}active{% endif %}">
+                <a href="{% url 'datos_personales' %}">Datos Personales</a>
+            </li>
+            <li class="step {% if request.path == '/informacion-basica/' %}active{% endif %}">
+                <a href="{% url 'informacion_basica' %}">Información Básica</a>
+            </li>
+            <li class="step {% if request.path == '/informacion-contrato/' %}active{% endif %}">
+                <a href="{% url 'informacion_contrato' %}">Información del Contrato</a>
+            </li>
+            <li class="step {% if request.path == '/informacion-financiera/' %}active{% endif %}">
+                <a href="{% url 'informacion_financiera' %}">Información Financiera</a>
+            </li>
+            <li class="step {% if request.path == '/certificacion-juramentada/' %}active{% endif %}">
+                <a href="{% url 'certificacion_juramentada' %}">Certificación Juramentada</a>
+            </li>
+            <li class="step {% if request.path == '/declaracion-juramentada/' %}active{% endif %}">
+                <a href="{% url 'declaracion_juramentada' %}">Declaración Juramentada</a>
+            </li>
+            <li class="step {% if request.path == '/cumplimiento-supervision/' %}active{% endif %}">
+                <a href="{% url 'cumplimiento_supervision' %}">Cumplimiento de Supervisión</a>
+            </li>
+        </ul>
+    </div>
+    
+    </div>
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<style>
+    .step-container {
+        display: flex;
+        justify-content: space-between;
+        background: #b71c1c;
+        padding: 10px 0;
+        border-radius: 5px;
+    }
+    .step-bar {
+        display: flex;
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    .step {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        position: relative;
+    }
+    .step.active {
+        background: red;
+    }
+    .step a {
+        text-decoration: none;
+        color: white;
+        display: block;
+    }
+</style>
+
+{% endblock %}

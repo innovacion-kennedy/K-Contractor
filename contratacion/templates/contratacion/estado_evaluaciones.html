@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block body_class %}dashboard{% endblock %}
+{% load static %}
+{% block content %}
+<div class="ev-container container">
+    <h2 class="ev-title mt-4"><img src="{% static 'img/img_Evaluaciones.jpeg' %}" alt="Registro de Datos y Documentos" width="40" height="40">
+        Estado de Evaluaciones</h2>
+
+    <form method="GET" class="ev-form">
+        <label for="convocatoria" class="ev-label">Filtrar por Convocatoria:</label>
+        <select name="convocatoria" class="ev-select form-control">
+            <option value="">Todas las convocatorias</option>
+            {% for convocatoria in convocatorias %}
+                <option value="{{ convocatoria.id }}">{{ convocatoria.titulo }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="ev-btn-filter btn btn-primary">Filtrar</button>
+    </form>
+
+    <div class="ev-row row">
+        <div class="ev-card-container col-md-4">
+            <div class="ev-card ev-pending card text-white bg-warning mb-3">
+                <div class="ev-card-header card-header">Pendientes</div>
+                <div class="ev-card-body card-body">
+                    <h5 class="ev-card-title card-title">{{ total_pendientes }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="ev-card-container col-md-4">
+            <div class="ev-card ev-approved card text-white bg-success mb-3">
+                <div class="ev-card-header card-header">Aprobados</div>
+                <div class="ev-card-body card-body">
+                    <h5 class="ev-card-title card-title">{{ total_aprobados }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="ev-card-container col-md-4">
+            <div class="ev-card ev-finalized card text-white bg-danger mb-3">
+                <div class="ev-card-header card-header">Finalizados</div>
+                <div class="ev-card-body card-body">
+                    <h5 class="ev-card-title card-title">{{ total_finalizados }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="ev-subtitle mt-4">📊 Detalle de Evaluaciones</h3>
+    <table class="ev-table table table-striped">
+        <thead>
+            <tr>
+                <th class="ev-th">Contratista</th>
+                <th class="ev-th">Evaluador</th>
+                <th class="ev-th">Fecha de Evaluación</th>
+                <th class="ev-th">Estado</th>
+                <th class="ev-th">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evaluacion in evaluaciones %}
+            <tr class="ev-tr">
+                <td class="ev-td">{{ evaluacion.contratista.primer_nombre }} {{ evaluacion.contratista.apellido_paterno }}</td>
+                <td class="ev-td">{{ evaluacion.evaluador }}</td>
+                <td class="ev-td">{{ evaluacion.fecha_evaluacion|date:"d M Y" }}</td>
+                <td class="ev-td">
+                    <span class="ev-badge badge {% if evaluacion.estado == 'Aprobado' %}bg-success{% elif evaluacion.estado == 'Rechazado' %}bg-danger{% else %}bg-warning{% endif %}">{{ evaluacion.estado }}</span>
+                </td>
+                <td class="ev-td">
+                    <a href="{% url 'contratacion:evaluar_contratista' evaluacion.contratista.id %}" class="btn-evaluar">📝 Evaluar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'login:dashboard' %}" class="btn-volver">⬅ Volver</a>
+</div>
+{% endblock %}

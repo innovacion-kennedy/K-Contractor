@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body_class %}dashboard{% endblock %}
+{% block header %}
+<h1 class="dash-title">Bienvenido al Dashboard</h1>
+{% endblock %}
+
+{% block content %}
+<div class="dash-container">
+   
+    <div class="dash-categories">
+        <!--  REGISTRO DOCUMENTOS -->
+        
+        <div class="dash-category">
+            <img src="{% static 'img/img_registros.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Registro y Documentos</h5>
+            <a href="{% url 'contratacion:registro_documentacion' %}" class="dash-btn">Acceder</a>
+        </div>
+
+        <!--  LISTADO CONTRATISTAS -->
+        <div class="dash-category">
+            <img src="{% static 'img/img_Contratistas.jpeg' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Listado de Contratistas</h5>
+            <a href="{% url 'contratacion:listado_Hv' %}" class="dash-btn">Acceder</a>
+        </div>
+
+    <!--  MODULO CREAR CONVOCATORIAS -->
+        <div class="dash-category">
+            <img src="{% static 'img/img_convoca.jpeg' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Crear Convocatoria</h5>
+            <a href="{% url 'contratacion:crear_convocatoria' %}" class="dash-btn">Acceder</a>
+        </div>
+
+        <!--  MODULO LISTA CONVOCATORIAS -->
+        <div class="dash-category">
+            <img src="{% static 'img/img_list_convocado.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Lista de Convocatorias</h5>
+            <a href="{% url 'contratacion:lista_convocatorias' %}" class="dash-btn">Acceder</a>
+        </div>
+                <!--  MODULO EVALUACIONES -->
+                <div class="dash-category">
+                    <img src="{% static 'img/img_Evaluaciones.jpeg' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+                    <h5>Estado de Evaluaciones</h5>
+                    <a href="{% url 'contratacion:estado_evaluaciones' %}" class="dash-btn">Acceder</a>
+                </div>
+
+
+                <div class="dash-category">
+                    <img src="{% static 'img/img_crearK.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+                    <h5>Crear contrato</h5>
+                    <a href="{% url 'contratacion:crear_contrato' %}" class="dash-btn">Acceder</a>
+                </div>
+                
+                <div class="dash-category">
+                    <img src="{% static 'img/img_list_Contrato.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+                    <h5>Lista contratos</h5>
+                    <a href="{% url 'contratacion:lista_contratos' %}" class="dash-btn">Acceder</a>
+                </div>
+
+                <div class="dash-category">
+                    <img src="{% static 'img/img-tupagK.jpeg' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+                    <h5>Tu pago</h5>
+                    <a href="" class="dash-btn">Acceder</a>
+                </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

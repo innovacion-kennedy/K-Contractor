@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1 class="text-center mt-2 custom-title">Cuenta de Cobro Persona Natural</h1>
+{% endblock %}
+
+{% block content %}
+
+<!-- Contenedor principal (Formulario) -->
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h4 class="text-center mb-3">Formulario de Cuenta de Cobro</h4>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="row g-3">
+                <!-- Columna 1: Información Básica -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="contrato" class="form-label">Número de contrato</label>
+                        <select class="form-control" id="contrato" name="contrato" onchange="cargarDatosContrato()">
+                            <option value="" selected disabled>Seleccione un contrato</option>
+                            {% for contrato in contratos %}
+                                <option value="{{ contrato.id }}" 
+                                    data-fecha-inicial="{{ contrato.fecha_inicio }}" 
+                                    data-fecha-final="{{ contrato.fecha_terminacion }}" 
+                                    data-tipo="{{ contrato.tipo }}" 
+                                    data-numero-proyecto="{{ contrato.numero_proyecto }}" 
+                                    data-nombre-proyecto="{{ contrato.nombre_proyecto }}" 
+                                    data-numero-cdp="{{ contrato.numero_cdp }}" 
+                                    data-valor-cdp="{{ contrato.valor_cdp }}" 
+                                    data-fecha-cdp="{{ contrato.fecha_cdp }}" 
+                                    data-numero-crp="{{ contrato.numero_crp }}" 
+                                    data-valor-crp="{{ contrato.valor_crp }}" 
+                                    data-fecha-crp="{{ contrato.fecha_crp }}" 
+                                    data-fecha-suscripcion="{{ contrato.fecha_suscripcion }}">
+                                    {{ contrato.codigo_contrato }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_presentacion" class="form-label">Fecha de presentación</label>
+                        <input type="date" class="form-control" id="fecha_presentacion" name="fecha_presentacion">
+                    </div>
+                    <div class="form-group">
+                        <label for="anio" class="form-label">Año</label>
+                        <input type="text" class="form-control" id="anio" name="anio" value="2024">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre_contratista" class="form-label">Nombre completo del contratista</label>
+                        <input type="text" class="form-control" id="nombre_contratista" name="nombre_contratista" value="{{ user.get_full_name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="banco" class="form-label">Banco</label>
+                        <select class="form-control" id="banco" name="banco">
+                            <option>Banco 1</option>
+                            <option>Banco 2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Información del Contrato -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tipo_contrato" class="form-label">Tipo de contrato</label>
+                        <input type="text" class="form-control" id="tipo_contrato" name="tipo_contrato" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_inicial" class="form-label">Fecha inicial</label>
+                        <input type="date" class="form-control" id="fecha_inicial" name="fecha_inicial" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_final" class="form-label">Fecha Final</label>
+                        <input type="date" class="form-control" id="fecha_final" name="fecha_final" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_proyecto" class="form-label">Número de Proyecto</label>
+                        <input type="text" class="form-control" id="numero_proyecto" name="numero_proyecto" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
+                        <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_cdp" class="form-label">Número de CDP</label>
+                        <input type="text" class="form-control" id="numero_cdp" name="numero_cdp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor_cdp" class="form-label">Valor del CDP</label>
+                        <input type="text" class="form-control" id="valor_cdp" name="valor_cdp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_cdp" class="form-label">Fecha del CDP</label>
+                        <input type="date" class="form-control" id="fecha_cdp" name="fecha_cdp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_crp" class="form-label">Número de CRP</label>
+                        <input type="text" class="form-control" id="numero_crp" name="numero_crp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor_crp" class="form-label">Valor del CRP</label>
+                        <input type="text" class="form-control" id="valor_crp" name="valor_crp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_crp" class="form-label">Fecha del CRP</label>
+                        <input type="date" class="form-control" id="fecha_crp" name="fecha_crp" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_suscripcion" class="form-label">Fecha de Suscripción</label>
+                        <input type="date" class="form-control" id="fecha_suscripcion" name="fecha_suscripcion" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script para llenar automáticamente los datos del contrato -->
+<script>
+    function cargarDatosContrato() {
+        var contratoSeleccionado = document.getElementById("contrato").selectedOptions[0];
+
+        if (contratoSeleccionado.value) {
+            document.getElementById("fecha_inicial").value = contratoSeleccionado.getAttribute("data-fecha-inicial");
+            document.getElementById("fecha_final").value = contratoSeleccionado.getAttribute("data-fecha-final");
+            document.getElementById("tipo_contrato").value = contratoSeleccionado.getAttribute("data-tipo");
+            document.getElementById("numero_proyecto").value = contratoSeleccionado.getAttribute("data-numero-proyecto");
+            document.getElementById("nombre_proyecto").value = contratoSeleccionado.getAttribute("data-nombre-proyecto");
+            document.getElementById("numero_cdp").value = contratoSeleccionado.getAttribute("data-numero-cdp");
+            document.getElementById("valor_cdp").value = contratoSeleccionado.getAttribute("data-valor-cdp");
+            document.getElementById("fecha_cdp").value = contratoSeleccionado.getAttribute("data-fecha-cdp");
+            document.getElementById("numero_crp").value = contratoSeleccionado.getAttribute("data-numero-crp");
+            document.getElementById("valor_crp").value = contratoSeleccionado.getAttribute("data-valor-crp");
+            document.getElementById("fecha_crp").value = contratoSeleccionado.getAttribute("data-fecha-crp");
+            document.getElementById("fecha_suscripcion").value = contratoSeleccionado.getAttribute("data-fecha-suscripcion");
+        }
+    }
+</script>
+
+{% endblock %}

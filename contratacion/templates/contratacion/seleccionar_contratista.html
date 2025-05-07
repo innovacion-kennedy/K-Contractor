@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="asociar-container container">
+    <h2 class="asociar-titulo">Seleccionar Contratista para {{ convocatoria.titulo }}</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="asociar-alert {% if message.tags == 'success' %}asociar-alert-success{% else %}asociar-alert-danger{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="asociar-tabla-wrapper">
+        <table class="asociar-tabla">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Profesión</th>
+                    <th>Fecha de Asociación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in contratistas_info %}
+                    {% with persona=item.persona evaluacion=item.evaluacion %}
+                    <tr>
+                        <td>{{ persona.no_identificacion }}</td>
+                        <td>{{ persona.primer_nombre }} {{ persona.apellido_paterno }}</td>
+                        <td>{{ persona.nivel_formacion }}</td>
+                        <td>
+                            {% if evaluacion %}
+                                {{ evaluacion.fecha_asociacion|date:"d M Y H:i" }}
+                            {% else %}
+                                <span class="asociar-muted">No asociado</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if evaluacion %}
+                                <form method="POST" action="{% url 'contratacion:eliminar_asociacion' persona.id convocatoria.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="asociar-btn asociar-btn-danger">❌ Eliminar Asociación</button>
+                                </form>
+                            {% else %}
+                                <form method="POST" action="{% url 'contratacion:asociar_contratista' persona.id convocatoria.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="asociar-btn asociar-btn-success">✅ Asociar</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endwith %}
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="asociar-empty">No hay contratistas disponibles.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'contratacion:lista_convocatorias' %}" class="btn-volver">Volver</a>
+</div>
+{% endblock %}

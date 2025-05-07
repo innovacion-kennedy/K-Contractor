@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="editCv-container">
+    <h2 class="editCv-titulo">Editar Convocatoria</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="editCv-alerta">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="editCv-formulario">
+        {% csrf_token %}
+        
+        <div class="editCv-formulario-campos">
+            {{ form.as_p }}
+        </div>
+
+        <button class="btn-guardar">Guardar Cambios</button>
+        
+    </form>
+<a href="{% url 'contratacion:lista_convocatorias' %}" class="btn-volver">Volver</a>
+
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if funcionario %}Editar{% else %}Crear Nuevo{% endif %} Funcionario{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<div class="container m-5">
+    <div class="card pb-5">
+        <div class="card-header bg-{% if funcionario %}primary{% else %}success{% endif %} text-white">
+            <h2 class="mb-0">
+                <i class="fas fa-{% if funcionario %}user-edit{% else %}user-plus{% endif %}"></i>
+                {% if funcionario %}Editar{% else %}Crear Nuevo{% endif %} Funcionario
+            </h2>
+        </div>
+        
+        <div class="card-body px-2">
+            <!-- Selector de funcionario existente (solo cuando no hay funcionario) -->
+            {% if not funcionario %}
+            <div class="mb-4 p-3 border rounded bg-light">
+                <h5><i class="fas fa-search"></i> Funcionarios Existentes</h5>
+                <form method="POST" id="select-form">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <select name="funcionario" class="form-select">
+                            <option value="">-- Crear nuevo funcionario --</option>
+                            {% for f in funcionarios %}
+                            <option value="{{ f.id }}">
+                                {{ f.primer_nombre }} - {{ f.no_identificacion }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <i class="fas fa-check"></i> Seleccionar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Complete el formulario para registrar un nuevo funcionario
+            </div>
+            {% endif %}
+            
+        </div>
+        <!-- Formulario principal -->
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Campos del formulario -->
+                    {{ form.as_p }}
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> {% if funcionario %}Actualizar{% else %}Crear{% endif %}
+                </button>
+                <a href="{% url 'certificado:listar_cedulas' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

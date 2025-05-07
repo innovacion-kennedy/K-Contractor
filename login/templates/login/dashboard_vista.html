@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body_class %}dashboard{% endblock %}
+{% block header %}
+<h1 class="dash-title">Bienvenido al Dashboard</h1>
+{% endblock %}
+
+{% block content %}
+<div class="dash-container">
+   
+    <div class="dash-categories">
+        <!--  REGISTRO DOCUMENTOS -->
+        <div class="dash-category">
+            <img src="{% static 'img/img_registros.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Registro y Documentos</h5>
+            <a href="{% url 'contratacion:registro_documentacion' %}" class="dash-btn">Acceder</a>
+        </div>        
+        <!--  REGISTRO DOCUMENTOS -->
+        <div class="dash-category">
+            <img src="{% static 'img/img_registros.png' %}" alt="Registro de Datos y Documentos" width="80" height="80">
+            <h5>Registro y Documentos</h5>
+            <a href="{% url 'contratacion:registro_documentacion' %}" class="dash-btn">Acceder</a>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

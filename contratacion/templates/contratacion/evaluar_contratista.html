@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="evaluacion-container">
+  <h2 class="evaluacion-titulo">Evaluación de {{ persona.primer_nombre }} {{ persona.apellido_paterno }}</h2>
+
+  <div class="evaluacion-info">
+    <p><strong>Cédula:</strong> {{ persona.no_identificacion }}</p>
+    <p><strong>Correo:</strong> {{ persona.usuario.email }}</p>
+  </div>
+
+  <!-- 📢 Mensajes de Éxito o Error -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- 📄 Documentos cargados -->
+  <h3 class="evaluacion-subtitulo">📄 Documentos Cargados</h3>
+  {% if persona.documentos.exists %}
+    <ul class="evaluacion-documentos">
+      {% for documento in persona.documentos.all %}
+        <li>
+          {{ documento.tipo_documento }} - {{ documento.fecha_carga|date:"d M Y" }}
+          <a href="{{ documento.archivo.url }}" target="_blank" class="btn btn-sm btn-success">📄 Ver Documento</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">No ha cargado documentos.</p>
+  {% endif %}
+
+  <!-- 📝 Evaluación -->
+  <h3 class="evaluacion-subtitulo mt-4">📝 Evaluación</h3>
+
+  <div class="evaluacion-datos">
+    <p class="evaluacion-dato">
+      <label class="evaluacion-label">Convocatoria Evaluada:</label>
+      <span class="evaluacion-valor">
+        {% if evaluacion.convocatoria %}
+          {{ evaluacion.convocatoria.titulo }} - {{ evaluacion.convocatoria.estado }}
+        {% else %}
+          <span class="text-danger">No asignada</span>
+        {% endif %}
+      </span>
+    </p>
+
+    <p class="evaluacion-dato">
+      <label class="evaluacion-label">Puntaje (0-100):</label>
+      <span class="evaluacion-valor">{{ evaluacion.puntaje }}</span>
+    </p>
+
+    <p class="evaluacion-dato">
+      <label class="evaluacion-label">Observaciones:</label>
+      <span class="evaluacion-valor">{{ evaluacion.observaciones|default:"No registradas" }}</span>
+    </p>
+
+    <p class="evaluacion-dato">
+      <label class="evaluacion-label">Estado de Evaluación:</label>
+      <span class="evaluacion-valor">{{ evaluacion.estado }}</span>
+    </p>
+  </div>
+
+  <!-- Formulario -->
+  <form method="POST" class="evaluacion-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="evaluacion-botones">
+      <button type="submit" class="btn-evaluar"> Guardar Evaluación</button>
+      
+    </div>
+    <a href="{% url 'contratacion:listado_Hv' %}" class="btn btn-secondary btn-volver"> Volver</a>
+  </form>
+</div>
+{% endblock %}

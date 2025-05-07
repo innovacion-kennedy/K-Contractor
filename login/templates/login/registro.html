@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="auth-page">
+    <div class="wrapper">
+        <div class="register-form-container">
+            <img src="{% static 'img/logo-alcaldia-bogota.png' %}" alt="Logo" class="logo">
+            <h2>Registro de Usuario</h2>
+            
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Usuario y Correo -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ user_form.username.label }}</label>
+                        {{ user_form.username }}
+                        {{ user_form.username.errors }}
+                    </div>
+                    <div class="form-control-container">
+                        <label class="label-control">{{ user_form.email.label }}</label>
+                        {{ user_form.email }}
+                        {{ user_form.email.errors }}
+                    </div>
+                </div>
+
+                <!-- Contraseña y Confirmación -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ user_form.password1.label }}</label>
+                        {{ user_form.password1 }}
+                        {{ user_form.password1.errors }}
+                    </div>
+                    <div class="form-control-container">
+                        <label class="label-control">{{ user_form.password2.label }}</label>
+                        {{ user_form.password2 }}
+                        {{ user_form.password2.errors }}
+                    </div>
+                </div>
+
+                <h3 class="sub-title">Datos Personales</h3>
+
+                <!-- Nombres -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.primer_nombre.label }}</label>
+                        {{ persona_form.primer_nombre }}
+                        {{ persona_form.primer_nombre.errors }}
+                    </div>
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.segundo_nombre.label }}</label>
+                        {{ persona_form.segundo_nombre }}
+                        {{ persona_form.segundo_nombre.errors }}
+                    </div>
+                </div>
+
+                <!-- Apellidos -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.apellido_paterno.label }}</label>
+                        {{ persona_form.apellido_paterno }}
+                        {{ persona_form.apellido_paterno.errors }}
+                    </div>
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.apellido_materno.label }}</label>
+                        {{ persona_form.apellido_materno }}
+                        {{ persona_form.apellido_materno.errors }}
+                    </div>
+                </div>
+
+                <!-- Documento -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.no_identificacion.label }}</label>
+                        {{ persona_form.no_identificacion }}
+                        {{ persona_form.no_identificacion.errors }}
+                    </div>
+                </div>
+
+                <!-- Dirección y Teléfono -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.direccion.label }}</label>
+                        {{ persona_form.direccion }}
+                        {{ persona_form.direccion.errors }}
+                    </div>
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.telefono.label }}</label>
+                        {{ persona_form.telefono }}
+                        {{ persona_form.telefono.errors }}
+                    </div>
+                </div>
+
+                <!-- Fecha de nacimiento -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.fecha_nacimiento.label }}</label>
+                        {{ persona_form.fecha_nacimiento }}
+                        {{ persona_form.fecha_nacimiento.errors }}
+                    </div>
+                </div>
+
+                <!-- Rol -->
+                <div class="form-group">
+                    <div class="form-control-container">
+                        <label class="label-control">{{ persona_form.rol.label }}</label>
+                        {{ persona_form.rol }}
+                        {{ persona_form.rol.errors }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-ingreso">Registrarse</button>
+            </form>
+
+            <p class="login-link">¿Ya tienes cuenta? <a href="{% url 'login:login_view' %}">Inicia sesión</a></p>
+        </div>
+    </div>
+</body>
+</html>

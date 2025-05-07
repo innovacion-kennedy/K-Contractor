@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="tablero">
+    <h2 class="titulo-tablero">📊 Tablero de Control</h2>
+
+    <!-- Grid para los gráficos -->
+    <div class="grid-container">
+
+        
+        <!-- Gráfico personas -->
+        <div class="grid-item" style="grid-column: span 2;">
+            <h3>Personas</h3>
+            <canvas id="graficaPersonas"></canvas>
+        </div>
+        <!-- Gráfico de Convocatorias Asociadas -->
+        <div class="grid-item"style="grid-column: span 2;">
+            <h3>Asociación de Convocatorias</h3>
+            <canvas id="graficaConvocatoriasAsociadas"></canvas>
+        </div>
+
+        <!-- Gráfico Grande -->
+        <div class="grid-item" style="grid-column: span 4;">
+            <h3>Gráfico Grande</h3>
+            <canvas id="graficaGrande"></canvas>
+        </div>
+        <!-- Gráfico Circular 1 -->
+        <div class="grid-item">
+            <h3>Evaluaciones</h3>
+            <canvas id="graficaEvaluacionesCircular1"></canvas>
+        </div>
+
+        <!-- Gráfico de Barras 1 -->
+        <div class="grid-item "style="grid-column: span 2";>
+            <h3>Estado Evaluaciones</h3>
+            <canvas id="graficaEvaluacionesBarras1"></canvas>
+        </div>
+
+
+        <!-- Otros gráficos -->
+        <div class="grid-item">
+            <h3>Gráfico</h3>
+            <canvas id="graficaEvaluacionesCircular3"></canvas>
+        </div>
+
+    </div>
+
+    <script>
+        const chartData = {
+            labels: ["Pendientes", "Aprobados", "Finalizados"],
+            data: [
+                {{ total_pendientes|default:0 }},
+                {{ total_aprobados|default:0 }},
+                {{ total_finalizados|default:0 }}
+            ]
+        };
+
+        const totalPersonas = {{ total_personas|default:0 }};
+        const convocatoriasData = {
+            labels: {{ data_convocatorias.labels|safe }},
+            data: {{ data_convocatorias.data|safe }}
+        };
+    </script>
+</div>
+
+<!-- Chart.js y Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const commonOptions = {
+            plugins: {
+                datalabels: {
+                    color: '#2A313C',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    formatter: value => value
+                }
+            }
+        };
+
+        new Chart(document.getElementById('graficaEvaluacionesCircular1'), {
+            type: 'pie',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Evaluaciones',
+                    data: chartData.data,
+                    backgroundColor: [ 'rgba(255, 255, 0, 0.5)','#00D26A','#E21131' ],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 159, 64, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: commonOptions,
+            plugins: [ChartDataLabels]
+        });
+
+        new Chart(document.getElementById('graficaEvaluacionesBarras1'), {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Evaluaciones',
+                    data: chartData.data,
+                    backgroundColor: [ 'rgba(255, 255, 0, 0.5)','#00D26A','#E21131' ],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 159, 64, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: commonOptions,
+            plugins: [ChartDataLabels]
+        });
+
+        new Chart(document.getElementById('graficaPersonas'), {
+            type: 'pie',
+            data: {
+                labels: ['Personas Registradas'],
+                datasets: [{
+                    label: 'Total Personas',
+                    data: [totalPersonas],
+                    backgroundColor: ['#00D26A'],
+                    borderColor: ['#F70A8D'],
+                    borderWidth: 1
+                }]
+            },
+            options: commonOptions,
+            plugins: [ChartDataLabels]
+        });
+
+        new Chart(document.getElementById('graficaConvocatoriasAsociadas'), {
+            type: 'bar',
+            data: {
+                labels: convocatoriasData.labels,
+                datasets: [{
+                    label: 'Convocatorias Asociadas',
+                    data: convocatoriasData.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    datalabels: {
+                        color: '#2A313C',
+                        font: { weight: 'bold', size: 12 },
+                        formatter: value => value
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+        });
+
+    });
+</script>
+{% endblock %}
